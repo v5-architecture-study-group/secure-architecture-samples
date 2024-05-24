@@ -13,37 +13,32 @@ import javax.security.auth.DestroyFailedException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ServiceLoader;
 
-public abstract class EncryptionLogger {
+public interface EncryptionLogger {
 
-    public abstract void dataKeyConsumed(DataKey dataKey);
+    void dataKeyConsumed(DataKey dataKey);
 
-    public abstract void dataKeyDestroyFailed(DataKey dataKey, DestroyFailedException exception);
+    void dataKeyDestroyFailed(DataKey dataKey, DestroyFailedException exception);
 
-    public abstract void dataKeyUpdatedBecauseOfRootKeyRotation(DataKeyIdentifier dataKeyIdentifier, RootKeyIdentifier oldRootKey, RootKeyIdentifier newRootKey);
+    void dataKeyUpdatedBecauseOfRootKeyRotation(DataKeyIdentifier dataKeyIdentifier, RootKeyIdentifier oldRootKey, RootKeyIdentifier newRootKey);
 
-    public abstract void dataKeyCreated(DataKeyIdentifier dataKeyIdentifier, RootKeyIdentifier rootKeyIdentifier);
+    void dataKeyCreated(DataKeyIdentifier dataKeyIdentifier, RootKeyIdentifier rootKeyIdentifier);
 
-    public abstract void missingCryptographicAlgorithm(NoSuchAlgorithmException exception);
+    void missingCryptographicAlgorithm(NoSuchAlgorithmException exception);
 
-    public abstract void missingPadding(NoSuchPaddingException exception);
+    void missingPadding(NoSuchPaddingException exception);
 
-    public abstract void invalidAlgorithmParameter(InvalidAlgorithmParameterException exception);
+    void invalidAlgorithmParameter(InvalidAlgorithmParameterException exception);
 
-    public abstract void invalidKey(InvalidKeyException exception);
+    void invalidKey(InvalidKeyException exception);
 
-    public abstract void illegalBlockSize(IllegalBlockSizeException exception);
+    void illegalBlockSize(IllegalBlockSizeException exception);
 
-    public abstract void badPadding(BadPaddingException exception);
+    void badPadding(BadPaddingException exception);
 
-    public abstract void rootKeyConsumed(PrivateRootKey rootKey);
+    void rootKeyConsumed(PrivateRootKey rootKey);
 
-    public abstract void rootKeyDestroyFailed(PrivateRootKey rootKey, DestroyFailedException exception);
+    void rootKeyDestroyFailed(PrivateRootKey rootKey, DestroyFailedException exception);
 
-    public abstract void invalidKeyFormat(IllegalArgumentException exception);
-
-    public static EncryptionLogger getInstance() {
-        return ServiceLoader.load(EncryptionLogger.class).findFirst().orElseThrow(() -> new IllegalStateException("No EncryptionLogger available"));
-    }
+    void invalidKeyFormat(IllegalArgumentException exception);
 }

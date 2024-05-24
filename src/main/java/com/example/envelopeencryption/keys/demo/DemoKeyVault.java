@@ -2,7 +2,7 @@ package com.example.envelopeencryption.keys.demo;
 
 import com.example.envelopeencryption.algorithm.AES256;
 import com.example.envelopeencryption.keys.*;
-import com.example.envelopeencryption.log.EncryptionLogger;
+import com.example.envelopeencryption.log.EncryptionLoggerFactory;
 
 import javax.crypto.SecretKey;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public final class DemoKeyVault implements KeyVault {
         var identifier = new DataKeyIdentifier(UUID.randomUUID(), AES256.INSTANCE);
         var rootKey = rootKeyProvider.publicRootKey();
         dataKeys.put(identifier, encryptDataKey(rootKey, identifier, dataKey));
-        EncryptionLogger.getInstance().dataKeyCreated(identifier, rootKey.identifier());
+        EncryptionLoggerFactory.getInstance().dataKeyCreated(identifier, rootKey.identifier());
         return new DataKey(identifier, dataKey);
     }
 
@@ -64,7 +64,7 @@ public final class DemoKeyVault implements KeyVault {
                 try {
                     var ciphertextDataKey = newRootKey.identifier().algorithm().encrypt(newRootKey.publicKey(), plaintextDataKey).orElseThrow(() -> new IllegalStateException("Failed to encrypt key"));
                     dataKeys.put(identifier, ciphertextDataKey);
-                    EncryptionLogger.getInstance().dataKeyUpdatedBecauseOfRootKeyRotation(identifier, oldRootKey.identifier(), newRootKey.identifier());
+                    EncryptionLoggerFactory.getInstance().dataKeyUpdatedBecauseOfRootKeyRotation(identifier, oldRootKey.identifier(), newRootKey.identifier());
                 } finally {
                     Arrays.fill(plaintextDataKey, (byte) 0);
                 }

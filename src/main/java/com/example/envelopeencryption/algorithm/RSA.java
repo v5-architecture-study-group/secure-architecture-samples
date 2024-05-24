@@ -1,6 +1,6 @@
 package com.example.envelopeencryption.algorithm;
 
-import com.example.envelopeencryption.log.EncryptionLogger;
+import com.example.envelopeencryption.log.EncryptionLoggerFactory;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -29,7 +29,7 @@ public final class RSA implements AsymmetricAlgorithm {
             keyPairGen.initialize(2048);
             return Optional.ofNullable(keyPairGen.generateKeyPair());
         } catch (NoSuchAlgorithmException ex) {
-            EncryptionLogger.getInstance().missingCryptographicAlgorithm(ex);
+            EncryptionLoggerFactory.getInstance().missingCryptographicAlgorithm(ex);
             return Optional.empty();
         }
     }
@@ -41,15 +41,15 @@ public final class RSA implements AsymmetricAlgorithm {
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Optional.of(cipher.doFinal(plaintext));
         } catch (NoSuchAlgorithmException ex) {
-            EncryptionLogger.getInstance().missingCryptographicAlgorithm(ex);
+            EncryptionLoggerFactory.getInstance().missingCryptographicAlgorithm(ex);
         } catch (NoSuchPaddingException ex) {
-            EncryptionLogger.getInstance().missingPadding(ex);
+            EncryptionLoggerFactory.getInstance().missingPadding(ex);
         } catch (InvalidKeyException ex) {
-            EncryptionLogger.getInstance().invalidKey(ex);
+            EncryptionLoggerFactory.getInstance().invalidKey(ex);
         } catch (IllegalBlockSizeException ex) {
-            EncryptionLogger.getInstance().illegalBlockSize(ex);
+            EncryptionLoggerFactory.getInstance().illegalBlockSize(ex);
         } catch (BadPaddingException ex) {
-            EncryptionLogger.getInstance().badPadding(ex);
+            EncryptionLoggerFactory.getInstance().badPadding(ex);
         }
         return Optional.empty();
     }
@@ -61,15 +61,15 @@ public final class RSA implements AsymmetricAlgorithm {
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             return Optional.of(cipher.doFinal(ciphertext));
         } catch (NoSuchAlgorithmException ex) {
-            EncryptionLogger.getInstance().missingCryptographicAlgorithm(ex);
+            EncryptionLoggerFactory.getInstance().missingCryptographicAlgorithm(ex);
         } catch (NoSuchPaddingException ex) {
-            EncryptionLogger.getInstance().missingPadding(ex);
+            EncryptionLoggerFactory.getInstance().missingPadding(ex);
         } catch (InvalidKeyException ex) {
-            EncryptionLogger.getInstance().invalidKey(ex);
+            EncryptionLoggerFactory.getInstance().invalidKey(ex);
         } catch (IllegalBlockSizeException ex) {
-            EncryptionLogger.getInstance().illegalBlockSize(ex);
+            EncryptionLoggerFactory.getInstance().illegalBlockSize(ex);
         } catch (BadPaddingException ex) {
-            EncryptionLogger.getInstance().badPadding(ex);
+            EncryptionLoggerFactory.getInstance().badPadding(ex);
         }
         return Optional.empty();
     }

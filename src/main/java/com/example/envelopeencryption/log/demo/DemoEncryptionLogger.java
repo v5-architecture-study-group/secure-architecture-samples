@@ -14,7 +14,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-public final class DemoEncryptionLogger extends EncryptionLogger {
+public final class DemoEncryptionLogger implements EncryptionLogger {
 
     // This implementation prints to the console. Don't do that in a real application.
 

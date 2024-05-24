@@ -1,6 +1,6 @@
 package com.example.envelopeencryption.keys;
 
-import com.example.envelopeencryption.log.EncryptionLogger;
+import com.example.envelopeencryption.log.EncryptionLoggerFactory;
 
 import javax.crypto.SecretKey;
 import javax.security.auth.DestroyFailedException;
@@ -35,7 +35,7 @@ public final class DataKey implements Externalizable {
         try {
             return function.apply(key);
         } finally {
-            EncryptionLogger.getInstance().dataKeyConsumed(this);
+            EncryptionLoggerFactory.getInstance().dataKeyConsumed(this);
             destroy();
         }
     }
@@ -46,7 +46,7 @@ public final class DataKey implements Externalizable {
             try {
                 key.destroy();
             } catch (DestroyFailedException ex) {
-                EncryptionLogger.getInstance().dataKeyDestroyFailed(this, ex);
+                EncryptionLoggerFactory.getInstance().dataKeyDestroyFailed(this, ex);
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.example.envelopeencryption.algorithm;
 
-import com.example.envelopeencryption.log.EncryptionLogger;
+import com.example.envelopeencryption.log.EncryptionLoggerFactory;
 
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
@@ -34,7 +34,7 @@ public final class AES256 implements SymmetricAlgorithm {
             keyGen.init(KEY_SIZE_BITS, SecureRandom.getInstanceStrong());
             return Optional.of(keyGen.generateKey());
         } catch (NoSuchAlgorithmException ex) {
-            EncryptionLogger.getInstance().missingCryptographicAlgorithm(ex);
+            EncryptionLoggerFactory.getInstance().missingCryptographicAlgorithm(ex);
             return Optional.empty();
         }
     }
@@ -44,7 +44,7 @@ public final class AES256 implements SymmetricAlgorithm {
         try {
             return Optional.of(new SecretKeySpec(encodedKey, "AES"));
         } catch (IllegalArgumentException ex) {
-            EncryptionLogger.getInstance().invalidKeyFormat(ex);
+            EncryptionLoggerFactory.getInstance().invalidKeyFormat(ex);
         }
         return Optional.empty();
     }
@@ -61,7 +61,7 @@ public final class AES256 implements SymmetricAlgorithm {
             SecureRandom.getInstanceStrong().nextBytes(iv);
             return Optional.of(iv);
         } catch (NoSuchAlgorithmException ex) {
-            EncryptionLogger.getInstance().missingCryptographicAlgorithm(ex);
+            EncryptionLoggerFactory.getInstance().missingCryptographicAlgorithm(ex);
         }
         return Optional.empty();
     }
@@ -78,17 +78,17 @@ public final class AES256 implements SymmetricAlgorithm {
             cipher.init(Cipher.ENCRYPT_MODE, secret, new GCMParameterSpec(TAG_LENGTH_BITS, iv));
             return Optional.of(cipher.doFinal(plaintext));
         } catch (NoSuchAlgorithmException ex) {
-            EncryptionLogger.getInstance().missingCryptographicAlgorithm(ex);
+            EncryptionLoggerFactory.getInstance().missingCryptographicAlgorithm(ex);
         } catch (NoSuchPaddingException ex) {
-            EncryptionLogger.getInstance().missingPadding(ex);
+            EncryptionLoggerFactory.getInstance().missingPadding(ex);
         } catch (InvalidAlgorithmParameterException ex) {
-            EncryptionLogger.getInstance().invalidAlgorithmParameter(ex);
+            EncryptionLoggerFactory.getInstance().invalidAlgorithmParameter(ex);
         } catch (InvalidKeyException ex) {
-            EncryptionLogger.getInstance().invalidKey(ex);
+            EncryptionLoggerFactory.getInstance().invalidKey(ex);
         } catch (IllegalBlockSizeException ex) {
-            EncryptionLogger.getInstance().illegalBlockSize(ex);
+            EncryptionLoggerFactory.getInstance().illegalBlockSize(ex);
         } catch (BadPaddingException ex) {
-            EncryptionLogger.getInstance().badPadding(ex);
+            EncryptionLoggerFactory.getInstance().badPadding(ex);
         }
         return Optional.empty();
     }
@@ -100,17 +100,17 @@ public final class AES256 implements SymmetricAlgorithm {
             cipher.init(Cipher.DECRYPT_MODE, secret, new GCMParameterSpec(TAG_LENGTH_BITS, iv));
             return Optional.of(cipher.doFinal(ciphertext));
         } catch (NoSuchAlgorithmException ex) {
-            EncryptionLogger.getInstance().missingCryptographicAlgorithm(ex);
+            EncryptionLoggerFactory.getInstance().missingCryptographicAlgorithm(ex);
         } catch (NoSuchPaddingException ex) {
-            EncryptionLogger.getInstance().missingPadding(ex);
+            EncryptionLoggerFactory.getInstance().missingPadding(ex);
         } catch (InvalidAlgorithmParameterException ex) {
-            EncryptionLogger.getInstance().invalidAlgorithmParameter(ex);
+            EncryptionLoggerFactory.getInstance().invalidAlgorithmParameter(ex);
         } catch (InvalidKeyException ex) {
-            EncryptionLogger.getInstance().invalidKey(ex);
+            EncryptionLoggerFactory.getInstance().invalidKey(ex);
         } catch (IllegalBlockSizeException ex) {
-            EncryptionLogger.getInstance().illegalBlockSize(ex);
+            EncryptionLoggerFactory.getInstance().illegalBlockSize(ex);
         } catch (BadPaddingException ex) {
-            EncryptionLogger.getInstance().badPadding(ex);
+            EncryptionLoggerFactory.getInstance().badPadding(ex);
         }
         return Optional.empty();
     }

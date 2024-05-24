@@ -1,6 +1,6 @@
 package com.example.envelopeencryption.keys;
 
-import com.example.envelopeencryption.log.EncryptionLogger;
+import com.example.envelopeencryption.log.EncryptionLoggerFactory;
 
 import javax.security.auth.DestroyFailedException;
 import java.io.Externalizable;
@@ -36,7 +36,7 @@ public final class PrivateRootKey implements Externalizable, RootKey {
         try {
             return function.apply(key);
         } finally {
-            EncryptionLogger.getInstance().rootKeyConsumed(this);
+            EncryptionLoggerFactory.getInstance().rootKeyConsumed(this);
             destroy();
         }
     }
@@ -47,7 +47,7 @@ public final class PrivateRootKey implements Externalizable, RootKey {
             try {
                 key.destroy();
             } catch (DestroyFailedException ex) {
-                EncryptionLogger.getInstance().rootKeyDestroyFailed(this, ex);
+                EncryptionLoggerFactory.getInstance().rootKeyDestroyFailed(this, ex);
             }
         }
     }
